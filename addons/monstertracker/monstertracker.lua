@@ -3,6 +3,8 @@ _G["MONSTER_TRACKER"] = {};
 _G["MONSTER_TRACKER"]["settings"] = {
 	--if this is enabled, the notice will still show up even if goal is reached.
 	showNoticeIfComplete = true;
+	--if this is enabled, will hide total monsters needed if goal is reached.
+	hideTotalIfComplete = true;
 };
 
 local MonsterTrackData = {}
@@ -69,7 +71,7 @@ function FPS_ON_MSG_HOOKED(frame, msg, argStr, argNum)
 
 			local killNoticeText = killNoticeFrame:GetChild("killNoticeText");
 			tolua.cast(killNoticeText, "ui::CRichText");
-			if monsterTrackData.killCount < monsterTrackData.killsRequired then
+			if monsterTrackData.killCount < monsterTrackData.killsRequired and not _G["MONSTER_TRACKER"]["settings"].hideTotalIfComplete then
 				killNoticeText:SetText("{@st42}" .. ADD_THOUSANDS_SEPARATOR(monsterTrackData.killCount) .. " / " .. ADD_THOUSANDS_SEPARATOR(monsterTrackData.killsRequired) .. " " .. monCls.Name .. " killed{/}");
 			else
 				killNoticeText:SetText("{@st42}" ..  monCls.Name .. " complete ("..ADD_THOUSANDS_SEPARATOR(monsterTrackData.killCount).."){/}");
