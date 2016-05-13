@@ -71,10 +71,10 @@ function FPS_ON_MSG_HOOKED(frame, msg, argStr, argNum)
 
 			local killNoticeText = killNoticeFrame:GetChild("killNoticeText");
 			tolua.cast(killNoticeText, "ui::CRichText");
-			if monsterTrackData.killCount < monsterTrackData.killsRequired and not _G["MONSTER_TRACKER"]["settings"].hideTotalIfComplete then
-				killNoticeText:SetText("{@st42}" .. ADD_THOUSANDS_SEPARATOR(monsterTrackData.killCount) .. " / " .. ADD_THOUSANDS_SEPARATOR(monsterTrackData.killsRequired) .. " " .. monCls.Name .. " killed{/}");
+			if  _G["MONSTER_TRACKER"]["settings"].hideTotalIfComplete or not monsterTrackData.killCount < monsterTrackData.killsRequired then
+				killNoticeText:SetText("{@st42}" .. GetCommaedText(monsterTrackData.killCount) .. " / " .. GetCommaedText(monsterTrackData.killsRequired) .. " " .. monCls.Name .. " killed{/}");
 			else
-				killNoticeText:SetText("{@st42}" ..  monCls.Name .. " complete ("..ADD_THOUSANDS_SEPARATOR(monsterTrackData.killCount).."){/}");
+				killNoticeText:SetText("{@st42}" ..  monCls.Name .. " complete ("..GetCommaedText(monsterTrackData.killCount).."){/}");
 			end
 			killNoticeText:SetGravity(ui.LEFT, ui.TOP);
 			killNoticeText:SetTextAlign("left", "top");
